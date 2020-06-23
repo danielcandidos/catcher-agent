@@ -8,7 +8,7 @@
 # One vehicle "seeks"
 # See: http://www.red3d.com/cwr/
 
-from vehicle import Vehicle
+from Vehicle import Vehicle
 
 def setup():
     global v
