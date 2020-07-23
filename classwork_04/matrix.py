@@ -1,9 +1,7 @@
 import random
 from element import Element, ElementStatus
 
-
 class Matrix:
-
     def __init__(self, height=600, width=600, cells_num=20):
         self.height = height
         self.width = width

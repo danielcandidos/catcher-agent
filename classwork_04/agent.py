@@ -31,7 +31,7 @@ class Agent:
         self.run = True
         return route
     
-    def search(self):
+    def search(self, food=None):
         self.search_bfs()
 
     def search_bfs(self):
@@ -60,6 +60,40 @@ class Agent:
                     self.opened.append(neighbor)
             self.visited.append(self.element)
             if self.opened:
+                self.element = self.opened.pop(-1)
+            else:
+                self.stuck = True
+    
+    def search_ucs(self):
+        if self.element.status == ElementStatus.FOOD:
+            self.clean()
+            self.found = True
+        else:
+            for neighbor in self.element.neighbors:
+                if neighbor not in self.visited + self.opened:
+                    neighbor.generator = self.element
+                    neighbor.g = self.element.g + 1
+                    self.opened.append(neighbor)
+            self.visited.append(self.element)
+            if self.opened:
+                self.opened.sort(key=lambda element: element.g)
+                self.element = self.opened.pop(0)
+            else:
+                self.stuck = True
+
+    def search_greedy(self, food):
+        if self.element.status == ElementStatus.FOOD:
+            self.clean()
+            self.found = True
+        else:
+            for neighbor in self.element.neighbors:
+                if neighbor not in self.visited + self.opened:
+                    neighbor.generator = self.element
+                    neighbor.calculate_manhattan_distance(food)
+                    self.opened.append(neighbor)
+            self.visited.append(self.element)
+            if self.opened:
+                self.opened.sort(key=lambda element: element.d)
                 self.element = self.opened.pop(0)
             else:
                 self.stuck = True

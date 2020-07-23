@@ -15,7 +15,12 @@ class Element:
         self.status = status
         self.generator = generator
         self.neighbors = neighbors
+        self.d = 0
+        self.g = 0
     
     @property
     def is_not_wall(self):
         return self.status != ElementStatus.WALL
+    
+    def calculate_manhattan_distance(self, food):
+        self.d = abs(self.i - food.i) + abs(self.j - food.j)

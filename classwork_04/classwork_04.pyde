@@ -29,5 +29,5 @@ def draw():
             agent.reset()
             matrix.add_food()
     else:
-        agent.search()
+        agent.search(matrix.food)
         matrix.update(agent.visited, agent.opened, agent.element)
